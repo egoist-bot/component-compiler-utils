@@ -22,7 +22,8 @@ Parse raw single file component source into a descriptor with source maps. The a
 interface ParseOptions {
   source: string
   filename?: string
-  compiler: VueTemplateCompiler
+  // The compiler module or the absolute path to it
+  compiler: VueTemplateCompiler | string
   // https://github.com/vuejs/vue/tree/dev/packages/vue-template-compiler#compilerparsecomponentfile-options
   // defualt: { pad: 'line' }
   compilerParseOptions?: VueTemplateCompilerParseOptions

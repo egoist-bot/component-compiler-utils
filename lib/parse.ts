@@ -14,7 +14,7 @@ const emptyRE = /^(?:\/\/)?\s*$/
 export interface ParseOptions {
   source: string
   filename?: string
-  compiler: VueTemplateCompiler
+  compiler: VueTemplateCompiler | string
   compilerParseOptions?: VueTemplateCompilerParseOptions
   sourceRoot?: string
   needMap?: boolean
@@ -47,11 +47,14 @@ export function parse(options: ParseOptions): SFCDescriptor {
   const {
     source,
     filename = '',
-    compiler,
     compilerParseOptions = { pad: 'line' },
     sourceRoot = process.cwd(),
     needMap = true
   } = options
+  const compiler: VueTemplateCompiler =
+    typeof options.compiler === 'string'
+      ? require(options.compiler)
+      : options.compiler
   const cacheKey = hash(filename + source)
   let output: SFCDescriptor = cache.get(cacheKey)
   if (output) return output
